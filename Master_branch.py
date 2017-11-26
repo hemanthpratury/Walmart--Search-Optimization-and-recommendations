@@ -73,5 +73,22 @@ def linearRegression(df):
     plt.show()
 
 
+def multipleLinearRegression(df):
+    x = df.iloc[:, 6:-1].values
+    y = df.iloc[:, 8].values
+
+    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+
+    # Fitting Multiple Linear Regression to the training set
+    regressor = LinearRegression()
+    regressor.fit(X_train, y_train)
+
+    # Predicting the test results
+    y_pred = regressor.predict(X_test)
+
+    # printing model params
+    print(regressor.coef_)
+    print(regressor.intercept_)
+    print(regressor.score(X_test, y_test))
 
 
