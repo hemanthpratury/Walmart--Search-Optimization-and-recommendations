@@ -7,6 +7,7 @@ from pylab import rcParams
 import seaborn as sb
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
 
 
 def dataframeFormation():
@@ -90,5 +91,56 @@ def multipleLinearRegression(df):
     print(regressor.coef_)
     print(regressor.intercept_)
     print(regressor.score(X_test, y_test))
+
+
+
+
+
+def supportVectorRegression(df):
+    X = df.iloc[:, 6:-1].values
+    y = df.iloc[:, 8].values
+
+    '''
+    # Feature Scaling
+    from sklearn.preprocessing import StandardScaler
+    sc_X = StandardScaler()
+    sc_y = StandardScaler()
+    X = sc_X.fit_transform(X)
+    y = sc_y.fit_transform(y)
+
+    '''
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+    regressor = SVR(kernel='rbf')
+    regressor.fit(X_train, y_train)
+
+    # printing model params
+    # print(regressor.coef_)
+    # print(regressor.intercept_)
+    # print(regressor.score(X_test,y_test))
+
+    '''
+    # Predicting a new result
+    y_pred = regressor.predict(6.5)
+    y_pred = sc_y.inverse_transform(y_pred)
+
+    '''
+
+    '''
+    # Visualising the SVR results
+    plt.scatter(X, y, color = 'red')
+    plt.plot(X, regressor.predict(X), color = 'blue')
+    plt.title('SVR')
+    plt.xlabel('ATR, CTR')
+    plt.ylabel('CONV')
+    plt.show()
+
+    '''
+
+    from sklearn.model_selection import cross_val_score
+    # clf = svm.SVC(kernel='linear', C=1)
+    scores = cross_val_score(regressor, X, y, cv=5)
+    print(scores)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 
