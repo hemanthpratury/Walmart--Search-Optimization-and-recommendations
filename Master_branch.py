@@ -97,10 +97,10 @@ def multipleLinearRegression(df):
 
 
 def supportVectorRegression(df):
+
     X = df.iloc[:, 6:-1].values
     y = df.iloc[:, 8].values
 
-    '''
     # Feature Scaling
     from sklearn.preprocessing import StandardScaler
     sc_X = StandardScaler()
@@ -108,7 +108,8 @@ def supportVectorRegression(df):
     X = sc_X.fit_transform(X)
     y = sc_y.fit_transform(y)
 
-    '''
+
+    #Fitting the training data to the Support Vector Regressor
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
     regressor = SVR(kernel='rbf')
@@ -117,30 +118,7 @@ def supportVectorRegression(df):
     # printing model params
     # print(regressor.coef_)
     # print(regressor.intercept_)
-    # print(regressor.score(X_test,y_test))
+    print(regressor.score(X_train, y_train))
 
-    '''
-    # Predicting a new result
-    y_pred = regressor.predict(6.5)
-    y_pred = sc_y.inverse_transform(y_pred)
-
-    '''
-
-    '''
-    # Visualising the SVR results
-    plt.scatter(X, y, color = 'red')
-    plt.plot(X, regressor.predict(X), color = 'blue')
-    plt.title('SVR')
-    plt.xlabel('ATR, CTR')
-    plt.ylabel('CONV')
-    plt.show()
-
-    '''
-
-    from sklearn.model_selection import cross_val_score
-    # clf = svm.SVC(kernel='linear', C=1)
-    scores = cross_val_score(regressor, X, y, cv=5)
-    print(scores)
-    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
-
+    print(regressor.score(X_test, y_test))
 
